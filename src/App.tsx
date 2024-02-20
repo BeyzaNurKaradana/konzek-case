@@ -90,7 +90,7 @@ function App() {
 
   return (
     <div>
-      <h1>Ülkeler</h1>
+      <h1>Countries</h1>
       <input
         type="text"
         placeholder="Search..."
@@ -98,7 +98,7 @@ function App() {
         onChange={handleSearch}
       />
       <select onChange={handleGroup}>
-        <option value="none">Group by...</option>
+        <option value="none">Select Please</option>
         <option value="code">Code</option>
         <option value="name">Name</option>
       </select>
