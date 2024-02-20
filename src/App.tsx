@@ -65,7 +65,7 @@ function App() {
         ? groupTerm === "code"
           ? country.code.toLowerCase().includes(searchTerm.toLowerCase())
           : country.name.toLowerCase().includes(searchTerm.toLowerCase())
-        : true // Eğer groupTerm null ise, tüm ülkeleri döndür.
+        : true 
   );
 
   const groupedCountries = groupTerm
