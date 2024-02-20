@@ -57,8 +57,15 @@ function App() {
     }
   };
 
-  const filteredCountries = countries.filter((country) =>
-    country.name.toLowerCase().includes(searchTerm.toLowerCase())
+
+
+  const filteredCountries = countries.filter(
+    (country) =>
+      groupTerm
+        ? groupTerm === "code"
+          ? country.code.toLowerCase().includes(searchTerm.toLowerCase())
+          : country.name.toLowerCase().includes(searchTerm.toLowerCase())
+        : true // Eğer groupTerm null ise, tüm ülkeleri döndür.
   );
 
   const groupedCountries = groupTerm
