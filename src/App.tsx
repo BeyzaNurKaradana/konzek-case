@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
-import "./App.css"; 
-
+import React, { useState, useEffect, useRef } from "react";
+import "./App.css";
 
 type Country = {
   code: string;
@@ -11,7 +10,9 @@ function App() {
   const [countries, setCountries] = useState<Country[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [groupTerm, setGroupTerm] = useState<string | null>(null);
-  const [selectedCountry, setSelectedCountry] = useState<string | null>(null); 
+  const [selectedCountry, setSelectedCountry] = useState<string | null>(null);
+  const [selectedColorIndex, setSelectedColorIndex] = useState(0);
+  const colorOptions = ["lightblue", "lightgreen", "lightpink", "lightyellow"];
 
   useEffect(() => {
     fetchCountries();
@@ -46,7 +47,14 @@ function App() {
   };
 
   const handleSelectCountry = (code: string) => {
-    setSelectedCountry(code === selectedCountry ? null : code); 
+    if (selectedCountry === code) {
+      setSelectedCountry(null);
+    } else {
+      setSelectedCountry(code);
+      setSelectedColorIndex(
+        (prevColorIndex) => (prevColorIndex + 1) % colorOptions.length
+      );
+    }
   };
 
   const filteredCountries = countries.filter((country) =>
@@ -67,16 +75,10 @@ function App() {
       )
     : null;
 
-  const selectDefaultCountry = () => {
-    if (filteredCountries.length > 0) {
-      const defaultIndex =
-        filteredCountries.length <= 10 ? filteredCountries.length - 1 : 9;
-      setSelectedCountry(filteredCountries[defaultIndex].code);
-    }
-  };
-
   useEffect(() => {
-    selectDefaultCountry();
+    const defaultIndex =
+      filteredCountries.length <= 10 ? filteredCountries.length - 1 : 9;
+    setSelectedCountry(filteredCountries[defaultIndex]?.code);
   }, [filteredCountries]);
 
   return (
@@ -104,7 +106,9 @@ function App() {
                       key={country.code}
                       onClick={() => handleSelectCountry(country.code)}
                       className={
-                        selectedCountry === country.code ? "selected" : ""
+                        selectedCountry === country.code
+                          ? colorOptions[selectedColorIndex]
+                          : ""
                       }
                     >
                       {country.name} ({country.code})
@@ -117,7 +121,11 @@ function App() {
               <li
                 key={country.code}
                 onClick={() => handleSelectCountry(country.code)}
-                className={selectedCountry === country.code ? "selected" : ""}
+                className={
+                  selectedCountry === country.code
+                    ? colorOptions[selectedColorIndex]
+                    : ""
+                }
               >
                 {country.name} ({country.code})
               </li>
